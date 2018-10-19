@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_HOME" value="./logs" />
+
+    <appender name="PROXY8_LOG"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/proxy8.log</file>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                <!-- should be one line to avoid new lines in the actual log file -->
+                %d{yyyy-MM-dd HH:mm:ss SSS} [%thread] [TraceId:%X{X-B3-TraceId:-}] [SpanId:%X{X-B3-SpanId:-}] %level %logger{100} - %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/proxy8.%d{yyyy-MM-dd HH}.%i.log.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>168</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+          by default -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss SSS} [%thread] [TraceId:%X{X-B3-TraceId:-}] [SpanId:%X{X-B3-SpanId:-}]  %-5level %logger{100} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="PROXY8_LOG" />
+    </root>
+    <!-- Enables/Disables logging of apache logging of outbound requests -->
+    <logger name="org.apache.http.wire" level="INFO" />
+    <logger name="org.apache.http.headers" level="INFO" />
+    <logger name="org.apache.http.impl.conn" level="INFO"/>
+    <logger name="org.apache.http.impl.client" level="INFO"/>
+    <logger name="org.apache.http.client.protocol" level="INFO"/>
+    <logger name="org.apache.http.impl.execchain.MainClientExec" level="INFO" />
+    <logger name="org.apache.http" level="INFO"/>
+
+    <logger name="org.springframework.boot.web.servlet.FilterRegistrationBean" level="INFO"/>
+
+</configuration>
