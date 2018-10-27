@@ -1,0 +1,27 @@
+.navbar {
+    background-image: linear-gradient(-90deg, #B7F8DB , #50A7C2);
+}
+.topic {
+  margin-bottom: 30px;
+}
+.form {
+  margin: auto;
+  text-align: center;
+  width: 30%;
+  padding: 60px;
+  background-color: white;
+  border-radius: 10px;
+}
+.btn-outline-info {
+  width: 100%;
+}
+.form {
+  margin-top: 50px;
+  background-image: linear-gradient(-90deg, #B7F8DB , #50A7C2);
+}
+.form-control:focus {
+  	outline:none;
+    border-color:green;
+    box-shadow:0 0 10px green;
+
+}

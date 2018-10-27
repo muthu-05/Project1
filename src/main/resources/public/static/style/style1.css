@@ -1,0 +1,25 @@
+.navbar {
+    background-image: linear-gradient(-90deg, #c2e9fb, #a1c4fd);
+}
+.topic {
+  margin-bottom: 30px;
+}
+.form {
+  margin: auto;
+  text-align: center;
+  width: 30%;
+  padding: 60px;
+  background-color: white;
+  border-radius: 10px;
+}
+.btn-outline-primary {
+  width: 100%;
+}
+.openauth {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.form {
+  margin-top: 50px;
+  background-image: linear-gradient(-90deg, #c2e9fb, #a1c4fd);
+}

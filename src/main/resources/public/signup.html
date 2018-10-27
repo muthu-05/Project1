@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MBox StorageService</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+  <script type="text/javascript" src="static/script/angular.min.js"></script>
+  <script type="text/javascript" src="static/script/angular-route.min.js"></script>
+  <script type="text/javascript" src="static/script/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/style/style2.css"/>
+  <div ng-app="fileApp" ng-controller="userController">
+    <nav class="navbar ">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand">MBox StorageService</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Sign In</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="form">
+        <div class="topic">
+          <center>Sign Up<br></center>
+        </div>
+        <form name="formSignUp" ng-submit="formSignUp123()">
+          <div class="form-group">
+              <input type="text" ng-model="firstname" id="fname" class="form-control" name="fname" placeholder="First Name" required>
+          </div>
+          <div class="form-group">
+              <input type="text" ng-model="lastname" id="lname" class="form-control" name="lname" placeholder="Last Name" required>
+          </div>
+          <div class="form-group">
+              <input type="text" ng-model="email" id="email" class="form-control" name="email" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+              <input type="password" ng-model="password" id="password" class="form-control" name="password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn btn-outline-info" name="signin">SIGN UP</button><br>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

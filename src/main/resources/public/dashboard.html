@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MBox StorageService</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/style/style3.css"/>
+  <script type="text/javascript" src="static/script/angular.min.js"></script>
+  <script type="text/javascript" src="static/script/angular-route.min.js"></script>
+</head>
+<body>
+  <div ng-app="fileApp" ng-controller="fileController"></div>
+	 <nav class="navbar ">
+  	<div class="container-fluid">
+    	<div class="navbar-header">
+      	<a class="navbar-brand">MBox StorageService</a>
+    	</div>
+    	<ul class="nav navbar-nav">
+      	<li><a class="button" href="index.html">Log Out</a></li>
+    	</ul>
+  	</div>
+	</nav>
+  <div class="container-fluid">
+    <div class="alert alert-success alert-dismissible" ng-show="success">
+      <button type="button" data-ng-click="boolConvert('success')">&times</button>
+      <strong>Done!</strong> {{successMessage}}
+    </div>
+    <div class="alert alert-danger alert-dismissible" ng-show="error">
+      <button type="button" data-ng-click="switchBool('error')">×</button>
+      <strong>Error!</strong> {{errorMessage}}
+    </div>
+    <center>
+		  <div class="container">
+        <form class="form-group" method="post">
+				  <div>
+            <label class="btn btn-outline-success">
+    					<input type="file" data-ng-model="File" enctype="multipart/form-data" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name)">Browse..
+            </label><br>
+            <span class='label label-info' id="upload-file-info"></span>
+				  </div>
+				  <input type="text" ng-model="description" id="text" name="filedescription" class="form-control" placeholder="File Description ">
+				  <div>
+            <input type="submit"  class="btn btn-outline-success" value="Upload" data-ng-click="uploadFile(File)">
+				  </div>
+        </form>
+		  </div>
+    </center>
+    <div class="container-fluid">
+  		<table class="table table-hover">
+    		<thead>
+      			<tr>
+        			<th>File Name</th>
+        			<th>File Description</th>
+       				<th>File Size</th>
+       				<th>File Upload Time</th>
+       				<th>File Update Time</th>
+       				<th>Download</th>
+       				<th>Edit</th>
+       				<th>Delete</th>
+      			</tr>
+    		</thead>
+    		<tbody>
+      			<tr data-ng-repeat="file in FileMetaData">
+        			<td>{{file.title}}</td>
+        			<td>{{file.description}}</td>
+        			<td>{{file.size}}</td>
+        			<td>{{file.uploadtime}}</td>
+        			<td>{{file.updatetime}}</td>
+        			<td><a href="http://||||||||||||||||||||||.cloudfront.net/{{file.url}}" target="_blank"><img src="static/icons/download.png"></a></td>
+        			<td><p data-toggle="tooltip" title="Download->Edit->Upload"><img src="static/icons/edit.png"></p></td>
+        			<td><button ng-click="deleteFile(file)"><img src="static/icons/delete.png"></button></td>
+      			</tr>
+      		</tbody>
+      	</table>
+   	</div>
+  </div>
+</body>
+</html>
