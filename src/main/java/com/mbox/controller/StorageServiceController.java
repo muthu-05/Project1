@@ -4,7 +4,10 @@ import com.mbox.persistence.FileMetaDataRepository;
 import com.mbox.persistence.FilePersistence;
 import com.mbox.model.FileMetaData;
 import com.mbox.service.StorageService;
+import com.mbox.util.TokenUtil;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.slf4j.LoggerFactory;
@@ -20,25 +23,35 @@ public class StorageServiceController {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    TokenUtil tokenUtil;
+
     @RequestMapping(value = "/file", consumes = {"multipart/form-data", "multipart/mixed"},
             method=RequestMethod.POST)
-    public FileMetaData uploadFile(@RequestPart(value = "file") MultipartFile file,
-        @RequestPart(value = "title") String title,
-        @RequestPart(value = "owner") String owner) {
+    public FileMetaData uploadFile(HttpServletRequest request,
+        @RequestPart(value = "file") MultipartFile file,
+        @RequestPart(value = "title") String title) {
         LOGGER.info("create file called");
+        String token = request.getHeader(TokenUtil.AUTHORIZATION_HEADER);
+        String owner = tokenUtil.getEmailAddress(token);
         return storageService.upload(file, title, owner);
     }
 
     @DeleteMapping("/file")
-    public String deleteFile(@RequestParam("id") String filemetadataid) {
+    public String deleteFile(HttpServletRequest request,
+        @RequestParam("id") String filemetadataid) {
         LOGGER.info("delete file called");
-        return storageService.delete(filemetadataid);
+        String token = request.getHeader(TokenUtil.AUTHORIZATION_HEADER);
+        String owner = tokenUtil.getEmailAddress(token);
+        return storageService.delete(owner, filemetadataid);
     }
 
     @GetMapping("/files")
-    public List<FileMetaData> Files() {
+    public List<FileMetaData> Files(HttpServletRequest request) {
         LOGGER.info("get files called");
-        return storageService.files();
+        String token = request.getHeader(TokenUtil.AUTHORIZATION_HEADER);
+        String owner = tokenUtil.getEmailAddress(token);
+        return storageService.files(owner);
     }
 
 }

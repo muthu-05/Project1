@@ -1,5 +1,7 @@
 package com.mbox.service;
 
+import com.mbox.exception.RequestException;
+import com.mbox.exception.StorageServiceException;
 import com.mbox.model.FileMetaData;
 import com.mbox.persistence.FileMetaDataRepository;
 import com.mbox.persistence.FilePersistence;
@@ -20,19 +22,22 @@ public class StorageService {
 
   public FileMetaData upload(MultipartFile file, String title, String owner) {
     String url = this.filePersistence.upload(file);
+
     return createFileMetadata(title, owner, url);
   }
 
-  public String delete(String id) {
-    FileMetaData fileMetaData = fileMetaDataRepository.findById(Long.parseLong(id)).get();
+  public String delete(String owner, String id)
+    throws StorageServiceException {
+    FileMetaData fileMetaData = fileMetaDataRepository.findByIdForOwner(owner, Long.parseLong(id));
+    if (fileMetaData == null) {
+      throw new RequestException("record not found");
+    }
     fileMetaDataRepository.delete(fileMetaData);
     return this.filePersistence.delete(fileMetaData.getUrl());
   }
 
-  public List<FileMetaData> files() {
-    List<FileMetaData> list = new ArrayList<>();
-    fileMetaDataRepository.findAll().forEach(e -> list.add(e));
-    return list;
+  public List<FileMetaData> files(String owner) {
+    return fileMetaDataRepository.findAllForOwner(owner);
   }
 
   private FileMetaData createFileMetadata(String title, String owner, String url) {

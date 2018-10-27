@@ -9,7 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-@Entity
+@Entity (name="filemetadata")
+@Table(name = "filemetadata")
 public class FileMetaData {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

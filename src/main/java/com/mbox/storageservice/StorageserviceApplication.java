@@ -1,8 +1,10 @@
 package com.mbox.storageservice;
 
+import com.mbox.filter.AuthorizationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -18,5 +20,16 @@ import javax.servlet.MultipartConfigElement;
 public class StorageserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StorageserviceApplication.class, args);
+	}
+
+	@Bean
+	public FilterRegistrationBean<AuthorizationFilter > filterRegistrationBean() {
+		FilterRegistrationBean < AuthorizationFilter > registrationBean = new FilterRegistrationBean();
+		AuthorizationFilter authorizationFilter = new AuthorizationFilter();
+
+		registrationBean.setFilter(authorizationFilter);
+		registrationBean.addUrlPatterns("/storage/*");
+		//registrationBean.setOrder(2); //set precedence
+		return registrationBean;
 	}
 }

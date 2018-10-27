@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/storage/authentication/facebook")
+@RequestMapping("/authentication/facebook")
 public class FacebookAuthenticationController {
   private static final Logger LOGGER = LoggerFactory.getLogger(FacebookAuthenticationController.class);
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/storage/authentication/google")
+@RequestMapping("/authentication/google")
 public class GoogleAuthenticationController {
   private static final Logger LOGGER = LoggerFactory.getLogger(GoogleAuthenticationController.class);
 
