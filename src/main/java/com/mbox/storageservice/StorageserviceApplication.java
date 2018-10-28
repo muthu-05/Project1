@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import org.springframework.web.multipart.MultipartResolver;
 
 import javax.servlet.MultipartConfigElement;
@@ -18,6 +21,18 @@ import javax.servlet.MultipartConfigElement;
 @EntityScan(basePackages = {"com.mbox.*"})
 @EnableJpaRepositories(basePackages={"com.mbox.*"})
 public class StorageserviceApplication {
+
+	@Bean
+	WebMvcConfigurer configurer () {
+ 		return new WebMvcConfigurer() {
+  			@Override
+  			public void addResourceHandlers (ResourceHandlerRegistry registry) {
+   				registry.addResourceHandler("/ssweb/**").
+     			addResourceLocations("classpath:/public/");
+  			}
+ 		};
+	}	
+
 	public static void main(String[] args) {
 		SpringApplication.run(StorageserviceApplication.class, args);
 	}

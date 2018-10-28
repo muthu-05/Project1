@@ -71,49 +71,61 @@ app.controller("userController", function($scope, $http, $location) {
 });
 app.controller('fileController', function($scope, $http,$location) {
 	$scope.uploadFile = function(file) {
-				if(file.size > 10485760) {
-					$scope.error = true;
-					$scope.errorMessage = "File Upload Failed! File Size is more than 10MB!";
-					return;
-				}
-				file.upload = Upload.upload({
-					url : "/file",
+				var req = {
+                    url : "/file",
 					type : "POST",
 					data : {
 						file : file,
-						title : file.name,
+						fileName : file.name,
+						description : $scope.description,
+						owner : $scope.email
 					}
-				});
-				file.upload.then(function(response) {
-					$scope.success = true;
-					$scope.successMessage = "File Uploaded Successfully";
+				};
+				$http(req).then(function(response) {
+					console.log('file upload success' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
 
 				}, function(response) {
-					$scope.error = true;
-					$scope.errorMessage = "File Upload Failed!";
-				});
+					console.log('file upload error' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
+			});
 			};
-	$scope.boolConvert = function (value) {
-        $scope[value] = !$scope[value];
-    };
     $scope.deleteFile = function(file) {
 				$http({
 					method : 'DELETE',
 					url : "/file",
 					data : {
-						id : file.id,
+						id : file.id
 					},
 					headers : {
 						'Content-Type' : "application/json"
 					}
 				}).then(function(response) {
-							$scope.success = true;
-							$scope.successMessage = "File deleted successfully!";
-
+							console.log('file delete success' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
 						}, function(error) {
-							$scope.error = true;
-							$scope.errorMessage = "File delete failed! Please try again after sometime!";
+							console.log('file delete success' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
 						});
 			};
-			
-});
+			$scope.displayFiles = function() {
+				var req = {
+					method : 'GET',
+					url : "/files",
+					params : {
+						owner : $scope.email
+					},
+					headers : {
+						'Content-Type' : "application/json"
+					}
+				}
+				$http(req).then(function(response) {
+					console.log('files displaying' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
+
+				}, function(response) {
+					console.log('files display error' + response);	
+    			window.location = "https://localhost:8443/ssweb/dashboard.html";
+			});
+			};
+		});
