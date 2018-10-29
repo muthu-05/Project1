@@ -20,7 +20,7 @@ import javax.servlet.MultipartConfigElement;
 @ComponentScan("com.mbox.*")
 @EntityScan(basePackages = {"com.mbox.*"})
 @EnableJpaRepositories(basePackages={"com.mbox.*"})
-public class StorageserviceApplication {
+public class StorageserviceApplication{
 
 	@Bean
 	WebMvcConfigurer configurer () {

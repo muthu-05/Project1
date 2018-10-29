@@ -3,7 +3,11 @@ angular.module('fileApp', ['ngRoute']);
 angular.module("fileApp").controller("userController", function($scope, $http, $location, $interval) {
   $scope.interval = undefined;
 
-  $scope.oauth2url = window.location.origin + "/authentication/{enterprise}/login?redirecturl="+ window.location.origin + "/ssweb/launcher.html";
+  $scope.serverdomain = "http://mboxstorage.com";
+  var USER_Endpoint = $scope.serverdomain + "/user";
+  var DASHBOARD_Endpoint = $scope.serverdomain + "/dashboard.html";
+
+  $scope.oauth2url = $scope.serverdomain + "/authentication/{enterprise}/login?redirecturl="+ window.location.origin + "/ssweb/launcher.html";
 
   $scope.launchGoogleOAuth2Flow123 = function(enterprise) {
    $scope.launchOAuth2Flow123("google");
@@ -30,7 +34,7 @@ angular.module("fileApp").controller("userController", function($scope, $http, $
   $scope.checkLoginStatus = function() {
       if (localStorage.token) {
         $interval.cancel($scope.interval);
-        window.location = "/dashboard.html?token="+localStorage.token;
+        window.location = $scope.serverdomain + "/dashboard.html?token="+localStorage.token;
       }
     }
 
@@ -40,7 +44,7 @@ angular.module("fileApp").controller("userController", function($scope, $http, $
     	
 		var req = {
 			method : 'GET',
-			url : "/user?"+queryString,
+			url : USER_Endpoint + "?"+queryString,
 			headers : {
             'Content-Type' : "application/json"
           }
@@ -51,7 +55,7 @@ angular.module("fileApp").controller("userController", function($scope, $http, $
 			var accesstoken = response.data.token;
 			var admin = response.data.admin;
 			console.log('muthu response from server' + accesstoken);
-			var redirecturl = "/dashboard.html?token="+accesstoken;
+			var redirecturl = DASHBOARD_Endpoint + "?token="+accesstoken;
 			if (admin) {
 			  redirecturl = redirecturl + "&admin=true";
 			}
@@ -82,7 +86,7 @@ angular.module("fileApp").controller("userController", function($scope, $http, $
     	var queryString = $scope.fillQueryParamSSWeb(queryParamTemplate)
     	var req = {
     			method : 'POST',
-    			url : "/user?"+queryString,
+    			url : USER_Endpoint + "?"+queryString,
     			data : {},
     			headers : {
     				'Content-Type' : "application/json"
@@ -92,7 +96,7 @@ angular.module("fileApp").controller("userController", function($scope, $http, $
     		$http(req).then(function(response) {
     		  var access = response.data;
           console.log('muthu response from server' + access.token);
-          window.location = "/dashboard.html?token="+access.token;
+          window.location = DASHBOARD_Endpoint + "?token="+access.token;
     		}, function(error) {
     			console.log('muthu response from server' + response);
     		});
@@ -116,8 +120,11 @@ angular.module("fileApp").directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 angular.module("fileApp").controller('fileController', function($scope, $http) {
-  var FILE_Endpoint = "/storage/file";
-  var FILES_Endpoint = "/storage/files";
+  $scope.serverdomain = "http://mboxstorage.com"
+  
+  var FILE_Endpoint = $scope.serverdomain + "/storage/file";
+  var FILES_Endpoint = $scope.serverdomain + "/storage/files";
+  var DASHBOARD_Endpoint = $scope.serverdomain + "/dashboard.html";
 
 	$scope.uploadFile = function() {
     console.log('uploadFile called');
@@ -139,7 +146,7 @@ angular.module("fileApp").controller('fileController', function($scope, $http) {
     console.log('http call');
     $http(req).then(function(response) {
       console.log('file upload success' + response);
-      window.location = "/dashboard.html?token=" + $scope.getTokenQueryParameter()
+      window.location = DASHBOARD_Endpoint + "?token=" + $scope.getTokenQueryParameter()
 
     }, function(response) {
       console.log('file upload error' + JSON.stringify(response));
@@ -156,7 +163,7 @@ angular.module("fileApp").controller('fileController', function($scope, $http) {
       }
     }).then(function(response) {
       console.log('file delete success' + JSON.stringify(response));
-      window.location = "/dashboard.html?token=" + $scope.getTokenQueryParameter()
+      window.location = DASHBOARD_Endpoint + "?token=" + $scope.getTokenQueryParameter()
     }, function(error) {
       console.log('file delete failed' + error);
     });

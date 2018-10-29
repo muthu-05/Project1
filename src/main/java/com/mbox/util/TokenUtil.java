@@ -40,9 +40,12 @@ public class TokenUtil {
     try {
       String email = jwtUtil.validate(jwtToken);
       LOGGER.info("retrieved email{}", email);
-
-      userService.isValidUser(email);
-      LOGGER.info("retrieved email{} is valid", email);
+      try{
+            userService.isValidUser(email);
+            LOGGER.info("retrieved email{} is valid", email);
+      }catch (Exception exception) {
+        LOGGER.info("user not found maybe external system authentication is used, exception{}", exception.getMessage());
+      }
       return email;
     } catch (Exception exception) {
       LOGGER.info("invalid token is passed, exception{}", exception.getMessage());

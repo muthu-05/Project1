@@ -72,13 +72,13 @@ public class UserService {
   public boolean isAdmin(String email) {
     LinkedHashMap<String, String> map = new LinkedHashMap<>();
     List<User> savedUser = userRepository.findByEmail(email);
-    if (savedUser == null) {
+    if (savedUser == null || savedUser.size() == 0){
       LOGGER.info("user not found in the system");
-      throw new RequestException("invalid request");
+      return false;
     }
     if (savedUser.size() > 1) {
       LOGGER.info("multiple user found in the system");
-      throw new AuthenticationException("invalid user credentials");
+      return false;
     }
     return savedUser.get(0).isAdmin();
   }
