@@ -1,4 +1,4 @@
-MBox StorageService
+<h1>MBox StorageService</h1>
 
 <p>University Name: <a href="http://www.sjsu.edu/" rel="nofollow">http://www.sjsu.edu/</a><br>
 Course: <a href="http://info.sjsu.edu/web-dbgen/catalog/courses/CMPE281.html" rel="nofollow">Cloud Technologies</a><br>
