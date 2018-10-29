@@ -42,10 +42,13 @@
           <div class="openauth">
             <p class="text-muted">Log in with</p>
           </div>
-          <div class="icons">
-            <img src="static/icons/googlepng.png" class="rounded-circle" alt="Google">&nbsp&nbsp&nbsp&nbsp</a>
-            <img src="static/icons/fbpng.png" class="rounded-circle" alt="Facebook">
-          </div>
+        </form>
+
+        <form name="formGoogle" ng-submit="launchGoogleOAuth2Flow123()">
+            <button type="submit" class="btn btn-outline-primary" name="google" >Google</button><br>
+        </form><br>
+        <form name="formFacebook" ng-submit="launchFacebookOAuth2Flow123()">
+            <button type="submit" class="btn btn-outline-primary" name="facebook" >Facebook</button><br>
         </form>
       </div>
     </div>

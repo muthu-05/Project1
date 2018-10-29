@@ -3,5 +3,7 @@ CREATE TABLE IF NOT EXISTS user (
     firstname VARCHAR(512) NOT NULL,
     lastname VARCHAR(512) NULL,
     password VARCHAR(512) NOT NULL,
+    adminuser BOOLEAN,
     PRIMARY KEY (email)
-)  
+);
+insert into user values('admin@mbox.com', 'admin', 'admin', 'ezWJm+unQ8LEe3xagN39Mw==', true);

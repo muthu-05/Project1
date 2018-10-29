@@ -3,6 +3,7 @@ package com.mbox.controller;
 import com.mbox.config.GoogleProperties;
 import com.mbox.service.AuthenticationService;
 import com.mbox.service.ProfileService;
+import com.mbox.util.JWTUtil;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,9 @@ public class GoogleAuthenticationController {
   @Autowired
   ProfileService profileService;
 
+  @Autowired
+  JWTUtil jwtUtil;
+
   @RequestMapping(value = "/login",
       method= RequestMethod.GET)
   public void login(HttpServletResponse response,
@@ -52,13 +56,6 @@ public class GoogleAuthenticationController {
       @RequestParam(value = "state") String state)
     throws IOException {
     LOGGER.info("google login redirect called");
-    response.sendRedirect(authenticationService.getAppRedirectUrl(state, code));
-  }
-
-  @RequestMapping(value = "/token",
-      method= RequestMethod.GET)
-  public LinkedHashMap<String, String> token(@RequestParam(value = "code") String code) {
-    LOGGER.info("google token called");
     LinkedHashMap<String, Object> map = authenticationService.doPostToken(
         googleProperties.getTokenUrl(),
         code,
@@ -67,7 +64,12 @@ public class GoogleAuthenticationController {
         googleProperties.getRedirectUrl(),
         googleProperties.getGrantType(),
         googleProperties.getContentType());
-    return profileService.getProfile(googleProperties.getProfileUrl(), map);
+    LinkedHashMap<String, String> profileMap = profileService.getProfile(googleProperties.getProfileUrl(), map);
+    String token = "";
+    if (profileMap.get("emailAddress") != null) {
+      token = jwtUtil.create(profileMap.get("emailAddress"));
+    }
+    response.sendRedirect(authenticationService.getAppRedirectUrl(state, token));
   }
 
 }

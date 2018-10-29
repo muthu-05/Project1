@@ -22,6 +22,8 @@ public class User {
 
   private String password;
 
+  private boolean adminuser;
+
   public String getEmail() {
     return email;
   }
@@ -55,6 +57,15 @@ public class User {
 
   public User setPassword(String password) {
     this.password = password;
+    return this;
+  }
+
+  public boolean isAdmin() {
+    return adminuser;
+  }
+
+  public User setAdmin(boolean admin) {
+    this.adminuser = admin;
     return this;
   }
 }

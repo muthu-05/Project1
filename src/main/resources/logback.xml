@@ -5,7 +5,7 @@
 
     <appender name="PROXY8_LOG"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/proxy8.log</file>
+        <file>${LOG_HOME}/mboxstorage.log</file>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>

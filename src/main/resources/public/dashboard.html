@@ -14,14 +14,15 @@
   <script type="text/javascript" src="static/script/angular.min.js"></script>
   <script type="text/javascript" src="static/script/angular-route.min.js"></script>
   <script type="text/javascript" src="static/script/app.js"></script>
-  <div ng-app="fileApp" ng-controller="fileController"></div>
-	 <nav class="navbar ">
+  <div ng-app="fileApp" ng-controller="fileController" ng-init="displayFiles()">
+
+   <nav class="navbar ">
   	<div class="container-fluid">
     	<div class="navbar-header">
       	<a class="navbar-brand">MBox StorageService</a>
     	</div>
     	<ul class="nav navbar-nav">
-      	<li><a class="button" href="login.html">Log Out</a></li>
+      	<li><a class="button" href="index.html">Log Out</a></li>
     	</ul>
   	</div>
 	</nav>
@@ -30,13 +31,13 @@
         <form class="form-group" method="post">
 				  <div>
             <label class="btn btn-outline-success">
-    					<input type="file" data-ng-model="File" enctype="multipart/form-data" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name)">Browse..
+    					<input type="file" file-model="myFile" style="display:none" onchange="$('#upload-file-info').html(this.files[0].name)">Browse..
             </label><br>
             <span class='label label-info' id="upload-file-info"></span>
 				  </div>
 				  <input type="text" ng-model="description" id="text" name="filedescription" class="form-control" placeholder="File Description ">
 				  <div>
-            <input type="submit"  class="btn btn-outline-success" value="Upload" data-ng-click="uploadFile(File)">
+            <input type="submit"  class="btn btn-outline-success" value="Upload" data-ng-click="uploadFile()">
 				  </div>
         </form>
 		  </div>
@@ -47,28 +48,33 @@
       			<tr>
         			<th>File Name</th>
         			<th>File Description</th>
+							<th ng-if="admin == 'true'">Owner</th>
        				<th>File Size</th>
        				<th>File Upload Time</th>
        				<th>File Update Time</th>
-       				<th>Download</th>
-       				<th>Edit</th>
+       				<th ng-if="admin != 'true'">Download</th>
+							<th ng-if="admin != 'true'">Edit</th>
        				<th>Delete</th>
       			</tr>
     		</thead>
     		<tbody>
-      			<tr data-ng-repeat="file in FileMetaData">
-        			<td>{{file.title}}</td>
-        			<td>{{file.description}}</td>
-        			<td>{{file.size}}</td>
-        			<td>{{file.uploadtime}}</td>
-        			<td>{{file.updatetime}}</td>
-        			<td><a href="http://||||||||||||||||||||||.cloudfront.net/{{file.url}}" target="_blank"><img src="static/icons/download.png"></a></td>
-        			<td><p data-toggle="tooltip" title="Download->Edit->Upload"><img src="static/icons/edit.png"></p></td>
+      			<tr ng-repeat="file in files">
+							<td>{{file.title}}</td>
+							<td>{{file.description}}</td>
+							<td ng-if="admin == 'true'">{{file.owner}}</td>
+							<td>{{file.size}}</td>
+							<td>{{file.createDate}}</td>
+							<td>{{file.modifyDate}}</td>
+							<td ng-if="admin != 'true'">
+								<a href="http://d1j5zvxorqyeeh.cloudfront.net/{{file.url}}" target="_blank"><img src="static/icons/download.png"></a></td>
+        			<td ng-if="admin != 'true'">
+								<p data-toggle="tooltip" title="Download->Edit->Upload"><img src="static/icons/edit.png"></p></td>
         			<td><button ng-click="deleteFile(file)"><img src="static/icons/delete.png"></button></td>
       			</tr>
       		</tbody>
       	</table>
    	</div>
    </div>
+  </div>
 </body>
 </html>

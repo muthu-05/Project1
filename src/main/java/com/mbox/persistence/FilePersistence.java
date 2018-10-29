@@ -11,6 +11,7 @@ import com.mbox.config.AmazonProperties;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,18 +49,19 @@ public class FilePersistence {
   }
 
   private void uploadFileTos3bucket(String fileName, File file) {
-    s3client.putObject(new PutObjectRequest(storageServiceConfiguration.getBucketName(),
-        fileName, file)
-        .withCannedAcl(CannedAccessControlList.PublicRead));
+    s3client.putObject(storageServiceConfiguration.getBucketName(),
+        fileName, file);
   }
 
-  public String upload(MultipartFile multipartFile) {
+  public String upload(MultipartFile multipartFile, String owner) {
     LOGGER.info("upload called");
     String fileUrl = "";
+    String fileName = generateFileName(multipartFile);
     try {
       File file = convertMultiPartToFile(multipartFile);
-      String fileName = generateFileName(multipartFile);
-      fileUrl = storageServiceConfiguration.getEndpointUrl() + "/" + storageServiceConfiguration.getBucketName() + "/" + fileName;
+
+      //fileUrl = owner + "/" +fileName;
+      fileUrl = fileName;
       LOGGER.info("upload called with fileUrl{}", fileUrl);
       uploadFileTos3bucket(fileName, file);
       file.delete();
@@ -69,12 +71,14 @@ public class FilePersistence {
     return fileUrl;
   }
 
-  public String delete(String fileUrl) {
+  public LinkedHashMap<String, String> delete(String fileUrl) {
     LOGGER.info("delete called");
     String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
     LOGGER.info("delete called with filename{} complete filename{}", fileName, storageServiceConfiguration.getBucketName() + "/");
     s3client.deleteObject(new DeleteObjectRequest(storageServiceConfiguration.getBucketName() + "/", fileName));
-    return "Successfully deleted";
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    map.put("status","Successfully deleted");
+    return map;
   }
 
 }

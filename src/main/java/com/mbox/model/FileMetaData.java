@@ -2,6 +2,8 @@ package com.mbox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,11 +18,25 @@ public class FileMetaData {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "create_date")
+  private Date createDate;
+
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "modify_date")
+  private Date modifyDate;
+
   private String title;
+
+  private String description;
 
   private String url;
 
   private String owner;
+
+  private long size;
 
   public Long getId() {
     return id;
@@ -55,6 +71,42 @@ public class FileMetaData {
 
   public FileMetaData setOwner(String owner) {
     this.owner = owner;
+    return this;
+  }
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public FileMetaData setCreateDate(Date createDate) {
+    this.createDate = createDate;
+    return this;
+  }
+
+  public Date getModifyDate() {
+    return modifyDate;
+  }
+
+  public FileMetaData setModifyDate(Date modifyDate) {
+    this.modifyDate = modifyDate;
+    return this;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public FileMetaData setDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public long getSize() {
+    return size;
+  }
+
+  public FileMetaData setSize(long size) {
+    this.size = size;
     return this;
   }
 }

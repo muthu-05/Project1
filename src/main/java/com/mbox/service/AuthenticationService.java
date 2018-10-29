@@ -32,6 +32,7 @@ public class AuthenticationService {
   private static final String QUESTION = "?";
   private static final String EQUAL = "=";
 
+  private static final String TOKEN = "token";
   private static final String CODE = "code";
   private static final String CLIENT_ID = "client_id";
   private static final String CLIENT_SECRET = "client_secret";
@@ -44,8 +45,8 @@ public class AuthenticationService {
   @Autowired
   RestTemplateUtil restTemplateUtil;
 
-  public String getAppRedirectUrl(String state, String code) {
-    return state + QUESTION + CODE + EQUAL + code;
+  public String getAppRedirectUrl(String state, String token) {
+    return state + QUESTION + TOKEN + EQUAL + token;
   }
 
   public LinkedHashMap<String, Object> doPostToken(String tokenUrl,

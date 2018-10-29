@@ -3,6 +3,7 @@ package com.mbox.controller;
 import com.mbox.config.FacebookProperties;
 import com.mbox.service.AuthenticationService;
 import com.mbox.service.ProfileService;
+import com.mbox.util.JWTUtil;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+/*
+https://stackoverflow.com/questions/37001004/facebook-login-message-url-blocked-this-redirect-failed-because-the-redirect
+Facebook Login -> Settings -> Valid OAuth redirect URIs
+ */
 @RestController
 @RequestMapping("/authentication/facebook")
 public class FacebookAuthenticationController {
@@ -27,6 +31,9 @@ public class FacebookAuthenticationController {
 
   @Autowired
   ProfileService profileService;
+
+  @Autowired
+  JWTUtil jwtUtil;
 
   @RequestMapping(value = "/login",
       method= RequestMethod.GET)
@@ -52,14 +59,6 @@ public class FacebookAuthenticationController {
       @RequestParam(value = "state") String state)
     throws IOException {
     LOGGER.info("facebook login redirect called");
-    response.sendRedirect(authenticationService.getAppRedirectUrl(state, code));
-  }
-
-  @RequestMapping(value = "/token",
-      method= RequestMethod.GET)
-  public LinkedHashMap<String, String> token(@RequestParam(value = "code") String code) {
-    LOGGER.info("facebook token called");
-
     LinkedHashMap<String, Object> map = authenticationService.doGetToken(
         facebookProperties.getTokenUrl(),
         code,
@@ -68,7 +67,12 @@ public class FacebookAuthenticationController {
         facebookProperties.getRedirectUrl(),
         facebookProperties.getGrantType(),
         facebookProperties.getContentType());
-    return profileService.getProfile(facebookProperties.getProfileUrl(), map);
+    LinkedHashMap<String, String> profileMap = profileService.getProfile(facebookProperties.getProfileUrl(), map);
+    String token = "";
+    if (profileMap.get("email") != null) {
+      token = jwtUtil.create(profileMap.get("email"));
+    }
+    response.sendRedirect(authenticationService.getAppRedirectUrl(state, token));
   }
 
 }
