@@ -136,7 +136,7 @@ Used to send email to the subscriber details mentioned in the topic.
 
 **ARCHITECTURE**
 
-
+![aws architecture](https://user-images.githubusercontent.com/42783963/47687745-f82fd480-db9e-11e8-9e8e-bf26862fca71.jpeg)
 
 **PUBLIC URL**
 
