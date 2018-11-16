@@ -144,3 +144,29 @@ Used to send email to the subscriber details mentioned in the topic.
 **PUBLIC URL**
 
 http://mboxstorage.com
+
+
+<b>SCREENSHOTS</b><br>
+<br>
+<b>SNS</b><br>
+<img width="960" alt="sns" src="https://user-images.githubusercontent.com/42783963/48647430-cdb48880-e9a0-11e8-8937-4ee9d6f11245.png">
+<br>
+<b>CloudWatch</b><br>
+<img width="960" alt="cloudwatch" src="https://user-images.githubusercontent.com/42783963/48647462-e3c24900-e9a0-11e8-8558-a2047cbf8d24.png">
+<br>
+<b>Lambda</b><br>
+<img width="960" alt="lambda" src="https://user-images.githubusercontent.com/42783963/48647506-06546200-e9a1-11e8-8da4-46503240f7b7.png">
+<br>
+<b>SNS Subscription Email</b><br>
+<img width="960" alt="ec2 instance launch" src="https://user-images.githubusercontent.com/42783963/48647537-22f09a00-e9a1-11e8-9172-95e3b0e31f77.png">
+<br>
+<img width="960" alt="ec2 instance terminate" src="https://user-images.githubusercontent.com/42783963/48647558-313eb600-e9a1-11e8-8e99-bb083df88f0c.png">
+<br>
+<img width="960" alt="health check" src="https://user-images.githubusercontent.com/42783963/48647585-3d2a7800-e9a1-11e8-938d-90cb8b86ff17.png">
+<br>
+<b>Elasctic Load Balancer</b><br>
+<img width="960" alt="load balancer" src="https://user-images.githubusercontent.com/42783963/48647629-592e1980-e9a1-11e8-9637-09997f98e1db.png">
+<br>
+<b>Auto Scaling</b><br>
+<img width="960" alt="autoscaling" src="https://user-images.githubusercontent.com/42783963/48647681-87abf480-e9a1-11e8-87e4-4641fc6e1ec2.png">
+<br>
